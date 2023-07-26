@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <form action="/list">
+        <select name="code">
+            {% for x in list %}
+                <option value={{x.code }}>{{ x.name}}</option>
+            {% endfor %}
+        </select>
+    </form>
+    
+    {% for x in list %}
+        <a href="{{ url_for('view_entity', code=x.code) }}">{{ x.name }}</a>
+        {% for t in x.keys() %}
+            {% if t is not in ['_id','code', 'name'] %}
+                | <label>{{t}}: {{ x[t] }}</label>
+            {% endif%}
+        {% endfor %}
+        <a href="{{ url_for('add_entity', code=x.code) }}">Add row</a>
+        <a href="{{ url_for('delete_entity', code=x.code) }}">Delete</a>
+        
+
+        <br/>
+    {% endfor %}
+{% endblock %}

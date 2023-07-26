@@ -1,0 +1,6 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% for x in list %}
+        <li><a href="{{ url_for('view_entity', code=x.code) }}">{{ x.name }}</a></li>
+    {% endfor %}
+{% endblock %}

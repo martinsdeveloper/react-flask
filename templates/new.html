@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <form id="entityForm" action="{{ url_for('create_entity') }}" method="POST">
+        <label for="input_name">Name:</label>
+        <input type="text" name="name" minlength="1" id="input_name" required value={{ json.get('name', "") }}>
+        <label for="input_code">code:</label>
+        <input type="text" name="code" minlength="1" id="input_code" required value={{json.get('code',  "")}}>
+        <div class="new_field_container"></div>
+        <label class="add_field">Add Field</label>
+        <button type="submit" >Submit</button>
+    </form>
+
+    <script>
+        var codeDefined = function(e){
+            if (e.key != "Enter") { return; }
+            e.preventDefault();
+            var target = e.currentTarget;
+            if (!target.hasAttribute('name')){
+                console.log(target.parentNode);
+                var label = target.parentNode.querySelector('label');
+                label.innerHTML = "Now the value: " + target.value;
+                target.setAttribute('name', target.value);
+                target.value = ''
+            }
+        }
+
+        document.querySelector('form label.add_field').addEventListener("click", function(){
+            var field = document.createElement('input');
+            var field_container = document.createElement('div');
+            node = document.createElement('label');
+            node.innerHTML="Insert the name of the variable: ";
+            field_container.appendChild(node);
+            field.addEventListener('keypress', codeDefined );
+            field_container.appendChild(field);
+            document.querySelector('form div.new_field_container').appendChild(field_container);
+        })
+
+    </script>
+{% endblock %}
